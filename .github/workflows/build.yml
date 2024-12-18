@@ -24,10 +24,18 @@ jobs:
           curl https://dldir1v6.qq.com/weixin/Windows/WeChatSetup.exe -L --output WeChatSetup.exe &&^
           dir
           
-      - name: lessmsi 
+      - name: uncompress 
         shell: cmd
         run: | 
           7z.exe x WeChatSetup.exe -o"installation"
+
+      - name: remove junk
+        shell: cmd
+        run: |
+          cd installation\ &&^
+          rmdir /s /q $PLUGINSDIR &&^
+          del /s /q Uninstall.exe &&^
+          dir
           
       - shell: cmd
         run: xcopy /H /Y /C "WeChat.exe.Portable.cmd" "installation"
