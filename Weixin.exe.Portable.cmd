@@ -28,4 +28,4 @@ if not exist %LOCALAPPDATA% (
 	mkdir %LOCALAPPDATA%
 )
 
-start "" WeChat.exe
+start "" Weixin.exe
