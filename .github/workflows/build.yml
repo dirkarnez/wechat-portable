@@ -46,7 +46,7 @@ jobs:
           dir
           
       - shell: cmd
-        run: xcopy /H /Y /C "WeChat.exe.Portable.cmd" "installation\installation"
+        run: xcopy /H /Y /C "Weixin.exe.Portable.cmd" "installation\installation"
           
       - name: Archive Release
         uses: thedoctor0/zip-release@master
