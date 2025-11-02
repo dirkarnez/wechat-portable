@@ -18,38 +18,46 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: installer
+      # - name: installer
+      #   shell: cmd
+      #   run: |
+      #     curl https://dldir1v6.qq.com/weixin/Windows/WeChatSetup.exe -L --output WeChatSetup.exe &&^
+      #     dir
+
+      - name: installer 
         shell: cmd
-        run: |
-          curl https://dldir1v6.qq.com/weixin/Windows/WeChatSetup.exe -L --output WeChatSetup.exe &&^
+        run: | 
+          curl https://dldir1v6.qq.com/weixin/Universal/Windows/WeChatWin_4.1.2.exe --output WeChatSetup.exe &&^
           dir
           
       - name: uncompress 
         shell: cmd
         run: | 
-          7z.exe x WeChatSetup.exe -o"installation"
-
+          7z.exe x WeChatSetup.exe -o"installation" &&^
+          cd installation &&^
+          7z.exe x install.7z -o"installation" &&^
+          dir
+          
       - name: remove junk
         shell: cmd
         run: |
-          cd installation\ &&^
-          rmdir /s /q $PLUGINSDIR &&^
+          cd installation\installation\ &&^
           del /s /q Uninstall.exe &&^
           dir
           
       - shell: cmd
-        run: xcopy /H /Y /C "WeChat.exe.Portable.cmd" "installation"
+        run: xcopy /H /Y /C "WeChat.exe.Portable.cmd" "installation\installation"
           
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          directory: "installation"
+          directory: "installation/installation"
           filename: "${{ env.targetZip }}"
           
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "installation/${{ env.targetZip }}"
+          artifacts: "installation/installation/${{ env.targetZip }}"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
